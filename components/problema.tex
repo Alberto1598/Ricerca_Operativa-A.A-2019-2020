@@ -1,0 +1,102 @@
+\documentclass[../modello-progetto.tex]{subfiles}
+\begin{document}
+
+Il ristorante ROItalia è uno dei ristoranti di lusso più belli di tutta Italia. Esso si situa in pieno centro a Padova e gode di un bellissimo giardino che può ospitare maestosi pranzi e cene di gala. A tal proposito ROItalia ha deciso proprio di organizzare una cena a cui prenderanno parte molti dirigenti aziendali da tutta Europa. Chiaramente il personale del locale non basta per un evento di tale portata, quindi il proprietario di ROItalia ha dato la possibilità di candidarsi come cuoco per la serata a diversi talenti culinari italiani che hanno bisogno di visibilità nel panorama gastronomico. Ogni cuoco per poter partecipare deve superare una serie di prove che prevede la preparazione di diversi piatti: antipasti, primi piatti, secondi primi piatti, secondi, dessert. Una giuria si riserva il compito di valutare le prestazioni di ogni cuoco con un voto da 1 a 10 fornendo un report :
+
+\begin{center}
+	\begin{tabular}{p{1cm} | p{1.5cm} | p{2cm} | p{2.5cm} | p{2cm} | p{1cm}}
+	\hline
+	  cuoco & antipasto & primo piatto & secondo primo piatto & secondo piatto & dessert \\
+	\hline
+	\hline
+	  A & 5 & 6 & 8 & 2 & 7\\
+	  B & 4 & 7 & 7 & 6 & 5\\
+	  C & 6 & 7 & 8 & 7 & 8\\
+	  D & 7 & 9 & 9 & 8 & 6\\
+	  E & 8 & 10 & 9 & 8 & 8\\
+	  F & 6 & 6 & 7 & 10 & 7\\
+	  G & 5 & 8 & 6 & 9 & 6 \\
+	  H & 6 & 8 & 7 & 6 & 9 \\
+	  I & 10 & 9 & 8 & 6 & 9\\
+	  L & 8 & 6 & 10 & 6 & 5\\
+	  M & 7 & 9 & 9 & 10 & 8 \\
+	  N & 9 & 7 & 8 & 6 & 8 \\
+	  O & 10 & 5 & 5 & 8 & 5 \\
+	\hline
+	\end{tabular}
+\end{center}
+Il compenso che viene promesso ad ogni cuoco per ogni portata che realizza è attribuito sulla base della media dei voti ottenuta dalle prove che si sono svolte in un momento precedente e che sono elencate nella tabella soprastante. Le due tabelle sottostanti, invece, illustrano il criterio con cui viene attribuito un compenso ad ogni cuoco e il compenso effettivo  che il cuoco guadagnerebbe nel caso in cui venisse nominato per cucinare alla cena:
+\begin{center}
+	\begin{tabular}{p{3cm} | p{4cm}}
+	\hline
+	fascia & compenso(in euro) \\
+	\hline
+	\hline
+	5 \leq media \leq 6 & 1000 \leq compenso \leq 1400 \\
+	6 \leq media \leq 7 & 1700 \leq compenso \leq 2100 \\
+	7 \leq media \leq 8 & 2400 \leq compenso \leq 2800 \\
+	8 \leq media \leq 9 & 3100 \leq compenso \leq 3500\\
+	9 \leq media \leq 10 & 3800 \leq compenso\leq 4200\\
+	\hline
+	\end{tabular}
+\end{center}
+\begin{center}
+	\begin{tabular}{p{1cm} | p{3cm}}
+	\hline
+	  cuoco & compenso previsto\\
+	\hline
+	\hline
+	  A & \hfil1350\\
+	  B & \hfil1400\\
+	  C & \hfil2450 \\
+	  D & \hfil2800 \\
+	  E & \hfil3390 \\
+	  F & \hfil2450 \\
+	  G & \hfil2100 \\
+	  H & \hfil2450 \\
+	  I & \hfil3250 \\
+	  L & \hfil2400 \\
+	  M & \hfil3430 \\
+	  N & \hfil2700 \\
+	  O & \hfil1950 \\
+	\hline
+	\end{tabular}
+\end{center}
+
+È necessario tenere in considerazione che data la complessità dei cibi e la numerosità degli ospiti sono richiesti più cuochi per ogni portata:
+\begin{itemize}
+	\item Per realizzare antipasti e dessert sono necessari 2 cuochi.
+	\item Per preparare i primi piatti sono necessari 3 cuochi.
+	\item Per preparare i secondi piatti sono necessari 5 cuochi.
+\end{itemize}
+Inoltre, un cuoco può realizzare un massimo di 2 portate, quindi si possono avere, ad esempio, le seguenti due possibilità:
+\begin{itemize}
+	\item Il cuoco x cucina l'antipasto mentre il cuoco y prepara il primo.
+	\item Il cuoco x cucina sia antipasto che primo piatto.
+\end{itemize}
+Il numero di cuochi totali convocati non è fissato a priori ma è determinato dalla ``molteplicità del cuoco'' e cioè dal fatto se realizzi una o due portate.
+Il ristorante ha un budget di €41000 che deve utilizzare in due maniere:
+\begin{itemize}
+	\item Pagare ogni cuoco per ogni portata che viene incaricato di realizzare.
+	\item Pagare nuovi camerieri e aiuto cuochi dal momento che il personale del ristorante non basta. Ogni aiuto cuoco e cameriere ha chiaramente un costo che è possibile visualizzare nella tabella sottostante. Il numero totale di aiuto cuochi e camerieri assunti deve essere almeno il doppio del numero di cuochi assunti. Inoltre il numero di camerieri assunti deve essere almeno 2/3 del numero di cuochi.
+\end{itemize}
+\begin{center}
+	\begin{tabular}{p{2.5cm} | p{2.5cm}}
+	\hline
+		Personale & costo(euro) \\
+	\hline
+	\hline
+		aiuto cuoco & 500 \\
+		cameriere & 900 \\
+	\hline
+	\end{tabular}
+ \end{center}
+
+Dopo aver visto il report, il proprietario del ristorante deve massimizzare la qualità media complessiva della cena decidendo quali cuochi convocare e cosa ognuno deve realizzare.
+Si deve tenere conto, inoltre, che :
+\begin{itemize}
+	\item I dessert vengono realizzati in un laboratorio a parte adibito a pasticceria quindi chi li prepara potrà dedicarsi solo a quello senza realizzare altre portate.
+	\item È possibile che un cuoco si offra volontario per preparare una portata aggiuntiva ( quindi 3 invece che 2), tuttavia, per il punto precedente non potrà essere un dessert, e inoltre dovrà essere pagato per una somma aggiuntiva pari a € 600 oltre al compenso di base che riceverà per preparare quella portata.
+	\item Essendo ROItalia specializzato nella preparazione di dolci il proprietario del ristorante ha elevate aspettative su quest'ultimo e richiede che siano impiegati cuochi la cui media dei voti nella preparazione di dessert sia pari o superiore a 8.
+\end{itemize}
+\end{document}

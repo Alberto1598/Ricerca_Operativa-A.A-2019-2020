@@ -1,0 +1,122 @@
+\documentclass[../modello-progetto.tex]{subfiles}
+\begin{document}
+
+In questa sezione verrà presentato il modello del problema di programmazione lineare che verrà successivamente implementato tramite il linguaggio di programmazione matematica AMPL.
+
+\subsection{Insiemi}
+\label{sec:insiemi}
+Si definiscono i seguenti insiemi:
+\begin{itemize}
+	\item C è l'insieme dei cuochi che si candidano per partecipare alla cena di gala.
+	\item P è l'insieme delle portate che verranno preparate nel corso della serata.
+	\item A è l'insieme del personale aggiuntivo (quindi cuochi esclusi) che è necessario assumere.
+\end{itemize}
+Nel caso specifico del problema presentato abbiamo che:
+\begin{itemize}
+	\item C: \{A, B, C, D, E, F, G, H, I, L, M, N\} è l'insieme dei cuochi.
+	\item P: \{\textit{antipasto}, \textit{primo piatto}, \textit{secondo primo piatto}, \textit{secondo}, \textit{dessert} \} è l'insieme delle portate nell'ordine presentato nella tabella.
+	\item A: \{ \textit{aiuto cuoco}, \textit{cameriere} \} è l'insieme delle persone che il proprietario del ristorante deve assumere eccetto i cuochi.
+\end{itemize}
+
+\subsection{Variabili}
+\label{sub:variabili}
+
+Si definiscono le variabili che verranno utilizzate:
+\begin{itemize}
+	\item $x_{ij} =\begin{cases} 1, \mbox{ se il cuoco }  i \in C \mbox{ cucina la pietanza } j \in P \\ 0, \mbox{ altrimenti} \end{cases} $
+	\item $y_i =\begin{cases} 1, \mbox{ se il cuoco }  i \in C \mbox{ prepara almeno una portata }\\ 0, \mbox{ altrimenti} \end{cases}$
+	\item $w_i =\begin{cases} 1, \mbox{ se il cuoco }  i \in C \mbox{ prepara una portata aggiuntiva}\\ 0, \mbox{ altrimenti} \end{cases}$
+	\item $u_i =\begin{cases} 1, \mbox{ se il cuoco }  i \in C \mbox{ prepara un dessert }\\ 0, \mbox{ altrimenti} \end{cases}$
+	\item $z_i : \mbox{quantità di personale } i \in A \mbox{ assunto}$.
+\end{itemize}
+
+\subsection{Parametri}
+\label{sub:parametri}
+
+Si definiscono i parametri che verranno utilizzati, i cui valori varieranno in base al file .dat che si sceglierà di usare:
+\begin{itemize}
+	\item $necessita_j \in \mathbb{Z}^+: \mbox{numero di cuochi necessari per la portata j} \in P$.
+	\item $voto_{ij} \in \mathbb{Z}^+: \mbox{voto ottenuto dal cuoco } i \mbox{ nella portata } j $.
+	\item $compenso_i \in \mathbb{R}^+: \mbox{ compenso (in euro) promesso al cuoco } i \in C \mbox{ per ogni portata } j \in P \mbox{ che realizza}$.
+	\item $stipendio_k \in \mathbb{R}^+: \mbox{ stipendio(in euro) promesso al personale } k$.
+	\item $ maxPortate \in \mathbb{Z}^+: \mbox{numero di portate massimo che ogni cuoco } i \in C \mbox{ può realizzare}$.
+	\item $ surplus \in \mathbb{Z}^+: \mbox{surplus previsto per l'eventuale cuoco } i \in C \mbox{ che realizzerà la portata aggiuntiva}$.
+	\item $ portateTotali \in \mathbb{Z}^+: \mbox{numero di portate totali}$.
+	\item $ budgetTotale \in \mathbb{R}^+: \mbox{budget totale a disposizione del ristorante}$.
+	\item $ M \in \mathbb{R}^+: \mbox{ costante di big M sufficientemente grande, utile ad attivare le variabili binarie} \\ \mbox{Il suo valore verrà posto pari a } 10^7$.
+\end{itemize}
+
+\subsection{Modello}
+\label{sub:modello}
+
+\textbf{Funzione obiettivo:}
+\[
+	max \: \: \: \: \frac{\sum_{j \in P}  \frac{\sum_{i \in C}{x_{ij} \: v_{ij}}}{necessita_j}}{portateTotali}
+\]
+\par È necessario dividere per il numero di portate totali per ottenere la qualità media della cena. \newline
+
+\noindent \textbf{Vincoli:} \\
+La portata j richiede un numero di cuochi ben preciso, specificato nell'array  $necessita_j$:
+
+\[
+	\sum_{i \in C} x_{ij} \geq necessita_j  \: \: \: \: \forall j \in P
+\]
+\[
+	\sum_{i \in C} x_{ij} \leq necessita_j  \: \: \: \: \forall j \in P
+\]
+
+\noindent Ogni cuoco può realizzare un numero limitato di portate pari a maxPortate:
+
+\[
+	\sum_{j \in P} x_{ij} \leq  maxPortate + w_i \: \: \: \: \forall i \in C
+\]
+
+\noindent Tuttavia, al più un cuoco può preparare una portata aggiuntiva:
+\[
+	\sum_{ i \in C} w_i \leq 1
+\]
+Il ristorante ha a disposizione un budget massimo che deve usare per pagare ristoratori, aiuto cuochi e camerieri:
+\[
+	\sum_{i \in C} \sum_{j \in P} x_{ij} \: compenso_i+ \sum_{k \in A} stipendio_k \: z_k + \sum_{i \in C}surplus \: w_i \leq budgetTotale
+\]
+Il numero di camerieri assunti deve essere almeno 2/3 del numero di aiuto cuochi :
+\[
+	z_{cameriere} \geq  \frac{2}{3} \cdot z_{aiuto\:cuochi}
+\]
+Per comprendere quanti siano i cuochi effettivamente assunti è necessario introdurre una variabile che ci dica se il cuoco i \in C cucina almeno una portata:
+
+\[
+	M \: y_i \geq \sum_{j \in P} x_{ij} \: \: \: \forall i \in C
+\]
+Inoltre, come stabilito nel problema, il numero di addetti del personale da assumere  deve essere almeno il doppio del numero di cuochi che partecipano alla cena:
+
+\[
+	\sum_{k \in A} z_k \geq 2 \: \sum_{i \in C} y_i
+\]
+I cuochi che preparano il dessert possono dedicarsi unicamente a quello. Per tale ragione si introduce una variabile che determina se il cuoco i \in C prepari o meno il dessert:
+
+\[
+	u_i \geq x_i,_{dessert} \: \: \forall i \in C  \: \: \: \: (attivazione \; variabile)
+\]
+Imponiamo ora la condizione che assicura che un cuoco che prepara il dessert non prepari altri piatti:
+
+\[
+	portateTotali - 1 \: (1-u_i) \geq \sum_{j \in P \backslash \{dessert\}} x_i,_j \: \: \: \: \forall i \in C
+\]
+Infine imponiamo il vincolo che stabilisce che la media dei voti dei cuochi che preparano il dessert deve essere almeno pari a 8:
+
+
+\textbf{Domini delle variabili}:
+\begin{center}
+	$ x_i,_j  \in \{0,1\} $
+
+	$ y_i \in \{0,1\} $
+
+	$ w_i  \in \{0,1\} $
+
+	$ u_i  \in \{0,1\} $
+
+	$ z_i  \in {Z}^+ $
+
+ \end{center}
+\end{document}

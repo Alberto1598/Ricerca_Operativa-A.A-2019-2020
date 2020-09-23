@@ -1,0 +1,41 @@
+
+reset;
+
+# carica il modello
+model modello.mod;
+
+# carica i dati
+data modello.dat;
+#data modello2.dat;
+#data modello3.dat;
+
+# utilizza il solver cplex
+option solver cplex;
+
+# risolvi il problema 
+solve;
+
+# mostra il voto medio della cena
+display voto_medio;
+
+# mostra il voto della cena 
+display x;
+display w;
+display z;
+display y;
+display u;
+
+
+# permette di capire il tipo di problema che ha impedito al solver di trovare una soluzione
+display solve_result_num, solve_result;
+
+for{ i in cuochi}{ 
+		for{ j in portate}{
+			if ( x[i,j] = 1) then{
+				printf "il cuoco %s cucina la portata %s \n", i,j;
+				printf "\n";
+			}
+	 	}
+}
+	
+

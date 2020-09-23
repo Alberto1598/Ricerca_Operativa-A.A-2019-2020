@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{subfiles}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{graphicx}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{caption}
+
+
+
+\graphicspath{
+    {./}
+    {img/}
+}
+\pagestyle{fancy}
+\fancyhf{}
+
+\rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+\begin{document}
+
+\begin{titlepage}
+	\begin{center}
+		\includegraphics[width=7.5cm]{components/logo.jpg}\\
+    	\huge
+    	\textbf{Progetto di Ricerca Operativa }
+
+    	\vspace{1cm}
+
+    	\Large{Dipartimento di Matematica Tullio-Levi Civita}
+
+    	\vspace{10cm}
+    	\normalsize{Alberto Cocco}\\
+    	\normalsize{1167891}
+    	\end{center}
+\end{titlepage}
+
+	\tableofcontents
+	\newpage
+
+\section{Abstract}%
+\label{sec:abstract}
+
+\subfile{components/abstract}
+
+\section{Descrizione del problema}%
+\label{sec:descrizione_del_problema}
+
+\subfile{components/problema}
+
+\section{Modello di programmazione lineare}%
+\label{sec:modello_di_programmazione_lineare}
+
+\subfile{components/modello}
+
+\section{Implementazione in AMPL}%
+\label{sec:implementazione_in_AMPL}
+
+\subfile{components/AMPL}
+
+\end{document}
